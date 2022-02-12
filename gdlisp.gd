@@ -1,4 +1,5 @@
 class_name GdLisp
+"Heavily based on https://norvig.com/lispy.html"
 
 static func tokenize(chars: String):
 	var tokens = chars.replace('\n', ' ').replace('	', ' ').replace('(', ' ( ').replace(')', ' ) ').split(' ')
