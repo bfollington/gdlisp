@@ -2,7 +2,7 @@ class_name GdLisp
 "Heavily based on https://norvig.com/lispy.html"
 
 static func tokenize(chars: String):
-	var tokens = chars.replace('\n', ' ').replace('	', ' ').replace('(', ' ( ').replace(')', ' ) ').split(' ')
+	var tokens = chars.replace('\n', ' ').replace('	', ' ').replace('[', ' [ ').replace('(', ' ( ').replace(']', ' ] ').replace(')', ' ) ').replace('"', ' " ').split(' ')
 	var filtered_tokens = []
 	for token in tokens:
 		if token != '' and token != '	':
@@ -20,11 +20,35 @@ static func read_from_tokens(tokens: Array):
 
 	assert(token != ')', "Syntax Error: unexpected ')'")
 
+	if token == '"':
+		var S = '"'
+		var count = 0
+		var words = []
+		while tokens[0] != '"':
+			words.append(tokens.pop_front())
+			
+		for i in range(0, len(words)):
+			var w = words[i]
+			S += w
+			if i < len(words) - 1:
+				S += " "
+
+		tokens.pop_front() # pop off '"'
+		S += '"'
+		return atom(S)
+
 	if token == '(':
 		var L = []
 		while tokens[0] != ')':
 			L.append(read_from_tokens(tokens))
 		tokens.pop_front() # pop off ')'
+		return L
+		
+	if token == '[':
+		var L = [atom('list')]
+		while tokens[0] != ']':
+			L.append(read_from_tokens(tokens))
+		tokens.pop_front() # pop off ']'
 		return L
 	else:
 		return atom(token)
@@ -47,6 +71,52 @@ static func eval(expression, env):
 	elif typeof(expression) == TYPE_INT or typeof(expression) == TYPE_REAL or typeof(expression) == TYPE_BOOL or typeof(expression) == TYPE_STRING:
 		return expression
 		
+	elif expression[0] is Symbol and expression[0]._val == 'fn':
+		var args = expression[1].slice(1, len(expression[2]))
+		
+		return Closure.new(expression[2], env, args)
+	
+	elif expression[0] is Symbol and expression[0]._val == 'defn':
+		var args = expression[2].slice(1, len(expression[2]))
+		var name = expression[1]._val
+		
+		var c = Closure.new(expression[3], env, args)
+		env[name] = c
+		return c
+		
+	elif expression[0] is Symbol and expression[0]._val == 'for':
+		var ret = []
+		
+		var local_env = env.duplicate()
+		for it in eval(expression[2], env):
+			local_env[expression[1]._val] = it
+			ret.append(eval(expression[3], local_env))
+		
+		return ret
+		
+	elif expression[0] is Symbol and expression[0]._val == 'filter':
+		var ret = []
+		
+		var local_env = env.duplicate()
+		for it in eval(expression[2], env):
+			var f = eval(expression[1], local_env)
+			var out = f.apply([it])
+			if eval(out[0], out[1]):
+				ret.append(it)
+		
+		return ret
+		
+	elif expression[0] is Symbol and expression[0]._val == 'map':
+		var ret = []
+		
+		var local_env = env.duplicate()
+		for it in eval(expression[2], env):
+			var f = eval(expression[1], local_env)
+			var out = f.apply([it])
+			ret.append(eval(out[0], out[1]))
+		
+		return ret
+		
 	elif expression[0] is Symbol and expression[0]._val == 'if':
 		var test = expression[1]
 		var conseq = expression[2]
@@ -56,14 +126,50 @@ static func eval(expression, env):
 		else: 
 			return eval(alt, env) 
 		
-	elif expression[0] is Symbol and expression[0]._val == 'define':
+	elif expression[0] is Symbol and expression[0]._val == 'def':
 		var symbol = expression[1]
 		var e = expression[2]
 
 		env[symbol._val] = eval(e, env)
+		
+	elif expression[0] is Symbol and expression[0]._val == 'let':
+		var args = expression[1].slice(1, len(expression[1]))
+		var body = expression[2]
+		assert(len(args) % 2 == 0)
+		
+		var local_env = env.duplicate()
+		
+		for i in range(0, len(args), 2):
+			local_env[args[i]._val] = eval(args[i + 1], local_env)
+		
+		return eval(body, local_env)
+		
+	elif expression[0] is Symbol and expression[0]._val == '->':
+		var value = expression[1]
+		var steps = expression.slice(2, len(expression))
+		
+		for s in steps:
+			s.append(value)
+			value = eval(s, env)
+
+		return value
+		
 	else:
-		var proc: Procedure = eval(expression[0], env)
-		var args = []
-		for i in range(1, len(expression)):
-			args.append(eval(expression[i], env))
-		return proc.apply(args)
+		var to_check = eval(expression[0], env)
+		if to_check is Closure:
+			var args = []
+			for i in range(1, len(expression)):
+				args.append(eval(expression[i], env))
+				
+			var out = to_check.apply(args)
+			
+			return eval(out[0], out[1])
+			pass
+		elif to_check is Procedure:
+			var proc: Procedure = to_check
+			var args = []
+			for i in range(1, len(expression)):
+				args.append(eval(expression[i], env))
+			return proc.apply(args)
+		else:
+			return expression

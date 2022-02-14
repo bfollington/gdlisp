@@ -10,6 +10,11 @@ config_version=4
 
 _global_script_classes=[ {
 "base": "Reference",
+"class": "Closure",
+"language": "GDScript",
+"path": "res://Closure.gd"
+}, {
+"base": "Reference",
 "class": "Env",
 "language": "GDScript",
 "path": "res://environment.gd"
@@ -30,6 +35,7 @@ _global_script_classes=[ {
 "path": "res://symbol.gd"
 } ]
 _global_script_class_icons={
+"Closure": "",
 "Env": "",
 "GdLisp": "",
 "Procedure": "",
@@ -41,6 +47,10 @@ _global_script_class_icons={
 config/name="gdlisp"
 run/main_scene="res://Main.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+GdLispGodotController="*res://GdLispGodotController.gd"
 
 [physics]
 
