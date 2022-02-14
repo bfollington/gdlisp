@@ -59,14 +59,20 @@ static func atom(token: String):
 		return int(token)
 	elif token.is_valid_float():
 		return float(token)
+	elif typeof(token) == TYPE_STRING and token[0] == ':':
+		return Keyword.new(token.substr(1))
 	elif typeof(token) == TYPE_STRING and token[0] == '"' and token[len(token) - 1] == '"':
 		return token.replace('"', '')
 	else:
 		return Symbol.new(token)
 
-static func eval(expression, env):	
+static func eval(expression, env):		
+	if expression is Keyword:
+		return expression._val
+		
 	if expression is Symbol:
 		return env[expression._val]
+
 		
 	elif typeof(expression) == TYPE_INT or typeof(expression) == TYPE_REAL or typeof(expression) == TYPE_BOOL or typeof(expression) == TYPE_STRING:
 		return expression
@@ -116,6 +122,17 @@ static func eval(expression, env):
 			ret.append(eval(out[0], out[1]))
 		
 		return ret
+		
+	elif expression[0] is Symbol and expression[0]._val == 'reduce':
+		var local_env = env.duplicate()
+		var acc = expression[2]
+		
+		for it in eval(expression[3], env):
+			var f = eval(expression[1], local_env)
+			var out = f.apply([it, acc])
+			acc = eval(out[0], out[1])
+		
+		return acc
 		
 	elif expression[0] is Symbol and expression[0]._val == 'if':
 		var test = expression[1]

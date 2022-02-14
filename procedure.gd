@@ -69,11 +69,20 @@ func apply(args: Array):
 		'getp':
 			var o = args[1]
 			return o.get(args[0])
+			
+		'children':
+			return args[0].get_children()
+		
+		'count':
+			return len(args[0])
 		
 		'get-node':
-			var r = GdLispGodotController.get_tree().root
-			var n = r.get_node(args[0])
-			return n
+			if (len(args) == 1):
+				var r = GdLispGodotController.get_tree().root
+				var n = r.get_node(args[0])
+				return n
+			else:
+				return args[1].get_node(args[0])
 			
 		'find-node':
 			var r = GdLispGodotController.get_tree().root
@@ -82,10 +91,29 @@ func apply(args: Array):
 			
 		'dict':
 			var d = {}
-			for i in range(0, len(args), 2):
-				d[args[i]] = args[i+1]
+			for i in range(0, len(args[0]), 2):
+				d[args[0][i]] = args[0][i+1]
 				
 			return d
+			
+		'get':
+			return args[1][args[0]]
+			
+		'merge':
+			var d = {}
+			for m in args:
+				for k in m.keys():
+					d[k] = m[k]
+			
+			return d
+			
+		'assoc!':
+			args[2][args[0]] = args[1]
+			return args[2]
+			
+		'dissoc!':
+			args[1].erase(args[0])
+			return args[1]
 			
 		'add':
 			var t = typeof(args[0])
