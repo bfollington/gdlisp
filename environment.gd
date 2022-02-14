@@ -18,6 +18,7 @@ static func default():
 		"setp!": Procedure.new(Symbol.new("setp!")),
 		"getp": Procedure.new(Symbol.new("getp")),
 		"children": Procedure.new(Symbol.new("children")),
+		"watch": Procedure.new(Symbol.new("watch")),
 		"count": Procedure.new(Symbol.new("count")),
 		"get-node": Procedure.new(Symbol.new("get-node")),
 		"find-node": Procedure.new(Symbol.new("find-node")),

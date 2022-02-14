@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://icon.png" type="Texture" id=1]
 [ext_resource path="res://spin.gd" type="Script" id=2]
 [ext_resource path="res://Container.gd" type="Script" id=3]
+[ext_resource path="res://WatchWindow.gd" type="Script" id=4]
 
 [node name="Node2D" type="Node2D"]
 
@@ -62,6 +63,61 @@ margin_top = 424.0
 margin_right = 324.0
 margin_bottom = 471.0
 text = "Evaluate"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="WatchWindow" type="Panel" parent="Container"]
+modulate = Color( 1, 1, 1, 0.545098 )
+margin_left = 534.0
+margin_top = 2.0
+margin_right = 1024.0
+margin_bottom = 505.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Container/WatchWindow"]
+margin_left = 8.0
+margin_top = 9.0
+margin_right = 222.0
+margin_bottom = 23.0
+text = "Output"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="Container/WatchWindow"]
+margin_left = 8.0
+margin_top = 29.0
+margin_right = 222.0
+margin_bottom = 43.0
+text = "Output"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Value" type="Label" parent="Container/WatchWindow"]
+margin_left = 259.0
+margin_top = 9.0
+margin_right = 473.0
+margin_bottom = 23.0
+text = "Output"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Value2" type="Label" parent="Container/WatchWindow"]
+margin_left = 259.0
+margin_top = 29.0
+margin_right = 473.0
+margin_bottom = 43.0
+text = "Output"
 __meta__ = {
 "_edit_use_anchors_": false
 }

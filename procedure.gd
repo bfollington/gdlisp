@@ -75,6 +75,9 @@ func apply(args: Array):
 		
 		'count':
 			return len(args[0])
+			
+		'watch':
+			return GdLispGodotController.watch(args[1], args[0])
 		
 		'get-node':
 			if (len(args) == 1):
