@@ -78,6 +78,22 @@ func apply(args: Array):
 			
 		'watch':
 			return GdLispGodotController.watch(args[1], args[0])
+			
+		'list-properties':
+			var node = args[0]
+			return node.get_property_list()
+
+		'selected-node':
+			var eds = GdLispGodotController.get_tree().root.get_editor_interface().get_selection()
+			var selected = eds.get_selected_nodes()
+			if len(selected) > 0:
+				return selected[0]
+			else:
+				return null
+
+		'selected-nodes':
+			var eds = GdLispGodotController.get_tree().root.get_editor_interface().get_selection()
+			return eds.get_selected_nodes()
 		
 		'get-node':
 			if (len(args) == 1):
@@ -89,7 +105,17 @@ func apply(args: Array):
 			
 		'find-node':
 			var r = GdLispGodotController.get_tree().root
-			var n = r.find_node(args[0], true, true)
+			if len(args) > 1:
+				r = args[1]
+
+			var n = r.find_node(args[0], true, false)
+			return n
+
+		'parent':
+			return args[0].get_parent()
+
+		'find-parent':
+			var n = args[1].find_parent(args[0])
 			return n
 			
 		'dict':
@@ -100,7 +126,7 @@ func apply(args: Array):
 			return d
 			
 		'get':
-			return args[1][args[0]]
+			return args[1].get(args[0])
 			
 		'merge':
 			var d = {}

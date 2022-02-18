@@ -1,4 +1,4 @@
-extends Panel
+extends WindowDialog
 
 
 # Declare member variables here. Examples:
@@ -6,6 +6,8 @@ extends Panel
 # var b = "text"
 
 var watching = []
+var row = preload("res://WatchValue.tscn")
+var rows = []
 
 
 # Called when the node enters the scene tree for the first time.
@@ -15,17 +17,25 @@ func _ready():
 	pass # Replace with function body.
 
 func _on_value_watched(node, key):
+	show()
 	watching.append([node, key])
-	$Label.text = key
-	$Value.text = str(node.get(key))
+
+func _on_value_unwatched(idx, watch):
+	var r = rows[0]
+	var watch_idx = watching.find(watch)
+	watching.remove(watch_idx)
+	rows.remove(0)
+	r.queue_free()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	var sets = [[$Label, $Value], [$Label2, $Value2]]
 	for i in range(0, len(watching)):
-		var label = sets[i][0]
-		var value = sets[i][1]
 		var watch = watching[i]
-
-		label.text = watch[1]
-		value.text = str(watch[0].get(watch[1]))
+		if len(rows) - 1 < i:
+			var new_row = row.instance()
+			rows.append(new_row)
+			$VBoxContainer.add_child(new_row)
+			new_row.connect("removed", self, "_on_value_unwatched", [i, watch])
+		
+		var r = rows[i]
+		r.update_watched_value(watch[1], watch[0].get(watch[1]))

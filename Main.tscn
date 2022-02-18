@@ -1,9 +1,18 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://icon.png" type="Texture" id=1]
 [ext_resource path="res://spin.gd" type="Script" id=2]
 [ext_resource path="res://Container.gd" type="Script" id=3]
 [ext_resource path="res://WatchWindow.gd" type="Script" id=4]
+[ext_resource path="res://fonts/iosevka-fixed-ss05-extended.ttf" type="DynamicFontData" id=5]
+[ext_resource path="res://WatchValue.tscn" type="PackedScene" id=6]
+[ext_resource path="res://NodeBrowser.gd" type="Script" id=7]
+
+[sub_resource type="DynamicFont" id=1]
+size = 20
+use_filter = true
+extra_spacing_char = -1
+font_data = ExtResource( 5 )
 
 [node name="Node2D" type="Node2D"]
 
@@ -36,12 +45,18 @@ margin_left = 5.0
 margin_top = 9.0
 margin_right = 481.0
 margin_bottom = 267.0
+custom_fonts/font = SubResource( 1 )
 text = "(do
   (define r 10)
   (if (> (* r r) 99)
     \"yes\"
     \"no\"))"
 syntax_highlighting = true
+minimap_draw = true
+caret_moving_by_right_click = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Label" type="Label" parent="Container/Panel"]
 margin_left = 10.0
@@ -67,59 +82,89 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="WatchWindow" type="Panel" parent="Container"]
-modulate = Color( 1, 1, 1, 0.545098 )
-margin_left = 534.0
+[node name="NodeBrowser" type="Panel" parent="Container"]
+margin_left = 982.0
 margin_top = 2.0
-margin_right = 1024.0
-margin_bottom = 505.0
+margin_right = 1282.0
+margin_bottom = 501.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+script = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Container/NodeBrowser"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 4.0
+margin_right = -4.0
+margin_bottom = -4.0
+size_flags_horizontal = 7
+size_flags_vertical = 3
+custom_constants/separation = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextEdit" type="TextEdit" parent="Container/NodeBrowser/VBoxContainer"]
+margin_right = 292.0
+margin_bottom = 23.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.05
+
+[node name="Tree" type="Tree" parent="Container/NodeBrowser/VBoxContainer"]
+margin_top = 29.0
+margin_right = 292.0
+margin_bottom = 491.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="WindowDialog" type="WindowDialog" parent="Container"]
+visible = true
+margin_left = 311.0
+margin_top = 265.0
+margin_right = 643.0
+margin_bottom = 483.0
+window_title = ":scratch"
+resizable = true
 script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="Container/WatchWindow"]
-margin_left = 8.0
-margin_top = 9.0
-margin_right = 222.0
-margin_bottom = 23.0
-text = "Output"
+[node name="VBoxContainer" type="VBoxContainer" parent="Container/WindowDialog"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 4.0
+margin_right = -4.0
+margin_bottom = -4.0
+size_flags_horizontal = 7
+custom_constants/separation = 6
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label2" type="Label" parent="Container/WatchWindow"]
-margin_left = 8.0
-margin_top = 29.0
-margin_right = 222.0
-margin_bottom = 43.0
-text = "Output"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="WatchValue" parent="Container/WindowDialog/VBoxContainer" instance=ExtResource( 6 )]
+visible = false
+margin_left = 0.0
+margin_top = 0.0
+margin_right = 212.0
+margin_bottom = 20.0
 
-[node name="Value" type="Label" parent="Container/WatchWindow"]
-margin_left = 259.0
-margin_top = 9.0
-margin_right = 473.0
-margin_bottom = 23.0
-text = "Output"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Value2" type="Label" parent="Container/WatchWindow"]
-margin_left = 259.0
-margin_top = 29.0
-margin_right = 473.0
-margin_bottom = 43.0
-text = "Output"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="WatchValue2" parent="Container/WindowDialog/VBoxContainer" instance=ExtResource( 6 )]
+visible = false
+margin_left = 0.0
+margin_top = 26.0
+margin_right = 212.0
+margin_bottom = 46.0
 
 [connection signal="pressed" from="Container/Panel/Button" to="Container" method="_on_Button_pressed"]
