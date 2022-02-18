@@ -126,7 +126,12 @@ func apply(args: Array):
 			return d
 			
 		'get':
-			return args[1].get(args[0])
+			if args[1] is Array:
+				if len(args[1]) - 1 < args[0]:
+					return null
+				return args[1][args[0]]
+			else:
+				return args[1].get(args[0])
 			
 		'merge':
 			var d = {}

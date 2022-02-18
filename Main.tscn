@@ -17,7 +17,8 @@ font_data = ExtResource( 5 )
 [node name="Node2D" type="Node2D"]
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 633, 262 )
+position = Vector2( 803, 487 )
+scale = Vector2( 2.46875, 2.59375 )
 texture = ExtResource( 1 )
 script = ExtResource( 2 )
 
@@ -30,8 +31,8 @@ __meta__ = {
 }
 
 [node name="Panel" type="Panel" parent="Container"]
-margin_right = 490.0
-margin_bottom = 503.0
+margin_right = 509.0
+margin_bottom = 721.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
@@ -43,8 +44,8 @@ __meta__ = {
 [node name="TextEdit" type="TextEdit" parent="Container/Panel"]
 margin_left = 5.0
 margin_top = 9.0
-margin_right = 481.0
-margin_bottom = 267.0
+margin_right = 688.0
+margin_bottom = 407.0
 custom_fonts/font = SubResource( 1 )
 text = "(do
   (define r 10)
@@ -52,31 +53,37 @@ text = "(do
     \"yes\"
     \"no\"))"
 syntax_highlighting = true
+draw_tabs = true
+draw_spaces = true
 minimap_draw = true
 caret_moving_by_right_click = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="Container/Panel"]
-margin_left = 10.0
-margin_top = 272.0
-margin_right = 55.0
-margin_bottom = 286.0
+[node name="Output" type="TextEdit" parent="Container/Panel"]
+margin_left = 5.0
+margin_top = 412.0
+margin_right = 688.0
+margin_bottom = 642.0
+custom_fonts/font = SubResource( 1 )
 text = "Output"
-
-[node name="Label2" type="Label" parent="Container/Panel"]
-margin_left = 10.0
-margin_top = 290.0
-margin_right = 55.0
-margin_bottom = 304.0
-text = "0"
+readonly = true
+syntax_highlighting = true
+draw_tabs = true
+draw_spaces = true
+wrap_enabled = true
+minimap_draw = true
+caret_moving_by_right_click = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Button" type="Button" parent="Container/Panel"]
 margin_left = 186.0
-margin_top = 424.0
+margin_top = 650.0
 margin_right = 324.0
-margin_bottom = 471.0
+margin_bottom = 697.0
 text = "Evaluate"
 __meta__ = {
 "_edit_use_anchors_": false

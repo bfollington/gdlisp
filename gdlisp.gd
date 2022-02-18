@@ -2,7 +2,7 @@ class_name GdLisp
 "Heavily based on https://norvig.com/lispy.html"
 
 static func tokenize(chars: String):
-	var tokens = chars.replace('\n', ' ').replace('	', ' ').replace('[', ' [ ').replace('(', ' ( ').replace(']', ' ] ').replace(')', ' ) ').replace('"', ' " ').split(' ')
+	var tokens = chars.replace('\n', ' ').replace('	', ' ').replace(',', '').replace('[', ' [ ').replace('(', ' ( ').replace(']', ' ] ').replace(')', ' ) ').replace('"', ' " ').split(' ')
 	var filtered_tokens = []
 	for token in tokens:
 		if token != '' and token != '	':
@@ -152,7 +152,7 @@ static func eval(expression, env):
 		
 	elif expression[0] is Symbol and expression[0]._val == 'let':
 		var args = expression[1].slice(1, len(expression[1]))
-		var body = expression[2]
+		var body = expression.slice(2, len(expression) - 1)
 		assert(len(args) % 2 == 0)
 		
 		var local_env = env.duplicate()
@@ -160,7 +160,11 @@ static func eval(expression, env):
 		for i in range(0, len(args), 2):
 			local_env[args[i]._val] = eval(args[i + 1], local_env)
 		
-		return eval(body, local_env)
+		var e = [atom('do')]
+		for subexp in body:
+			e.append(subexp)
+		
+		return eval(e, local_env)
 		
 	elif expression[0] is Symbol and expression[0]._val == '->':
 		var value = expression[1]
