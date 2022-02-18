@@ -8,7 +8,7 @@ func _init(body, env, arg_symbols):
 	expression = body
 	environment = env
 	arg_list = []
-	for s in arg_symbols:
+	for s in arg_symbols.slice(1, len(arg_symbols) - 1):
 		arg_list.append(s._val)
 	
 func apply(args: Array):

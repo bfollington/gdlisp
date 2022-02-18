@@ -74,11 +74,11 @@ static func eval(expression, env):
 		return env[expression._val]
 
 		
-	elif typeof(expression) == TYPE_INT or typeof(expression) == TYPE_REAL or typeof(expression) == TYPE_BOOL or typeof(expression) == TYPE_STRING:
+	elif typeof(expression) == TYPE_INT or typeof(expression) == TYPE_REAL or typeof(expression) == TYPE_BOOL or typeof(expression) == TYPE_STRING or typeof(expression) == TYPE_DICTIONARY:
 		return expression
 		
 	elif expression[0] is Symbol and expression[0]._val == 'fn':
-		var args = expression[1].slice(1, len(expression[2]))
+		var args = expression[1]
 		
 		return Closure.new(expression[2], env, args)
 	
@@ -104,6 +104,7 @@ static func eval(expression, env):
 		var ret = []
 		
 		var local_env = env.duplicate()
+			
 		for it in eval(expression[2], env):
 			var f = eval(expression[1], local_env)
 			var out = f.apply([it])
