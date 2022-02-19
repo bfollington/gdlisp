@@ -9,6 +9,7 @@ static func default():
 		"set-x!": Procedure.new(Symbol.new("set-x!")),
 		"set-y!": Procedure.new(Symbol.new("set-y!")),
 		"set-z!": Procedure.new(Symbol.new("set-z!")),
+		"=": Procedure.new(Symbol.new("eq")),
 		"+": Procedure.new(Symbol.new("add")),
 		"-": Procedure.new(Symbol.new("subtract")),
 		"*": Procedure.new(Symbol.new("multiply")),
@@ -25,7 +26,10 @@ static func default():
 		"count": Procedure.new(Symbol.new("count")),
 		"get-node": Procedure.new(Symbol.new("get-node")),
 		"find-node": Procedure.new(Symbol.new("find-node")),
+		"find-nodes": Procedure.new(Symbol.new("find-nodes")),
+		"all-nodes": Procedure.new(Symbol.new("all-nodes")),
 		"find-parent": Procedure.new(Symbol.new("find-parent")),
+		"connect": Procedure.new(Symbol.new("connect")),
 		"parent": Procedure.new(Symbol.new("parent")),
 		"list": Procedure.new(Symbol.new("list")),
 		"dict": Procedure.new(Symbol.new("dict")),
@@ -38,6 +42,7 @@ static func default():
 		"reverse": Procedure.new(Symbol.new("reverse")),
 		"str": Procedure.new(Symbol.new("str")),
 		"print": Procedure.new(Symbol.new("print")),
+		"log": Procedure.new(Symbol.new("log")),
 		"do": Procedure.new(Symbol.new("do")),
 	}
 	

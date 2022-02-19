@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://icon.png" type="Texture" id=1]
 [ext_resource path="res://spin.gd" type="Script" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://fonts/iosevka-fixed-ss05-extended.ttf" type="DynamicFontData" id=5]
 [ext_resource path="res://WatchValue.tscn" type="PackedScene" id=6]
 [ext_resource path="res://NodeBrowser.gd" type="Script" id=7]
+[ext_resource path="res://LogDialog.gd" type="Script" id=8]
 
 [sub_resource type="DynamicFont" id=1]
 size = 20
@@ -16,75 +17,23 @@ font_data = ExtResource( 5 )
 
 [node name="Node2D" type="Node2D"]
 
-[node name="Sprite" type="Sprite" parent="."]
+[node name="SpriteA" type="Sprite" parent="."]
 position = Vector2( 803, 487 )
 scale = Vector2( 2.46875, 2.59375 )
 texture = ExtResource( 1 )
 script = ExtResource( 2 )
 
-[node name="Container" type="Control" parent="."]
-margin_right = 491.0
-margin_bottom = 503.0
-script = ExtResource( 3 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="SpriteB" type="Sprite" parent="."]
+position = Vector2( 234, 279 )
+texture = ExtResource( 1 )
+script = ExtResource( 2 )
 
-[node name="Panel" type="Panel" parent="Container"]
-margin_right = 509.0
-margin_bottom = 721.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="Container" type="Control" parent="."]
+margin_right = 1280.0
+margin_bottom = 720.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="TextEdit" type="TextEdit" parent="Container/Panel"]
-margin_left = 5.0
-margin_top = 9.0
-margin_right = 688.0
-margin_bottom = 407.0
-custom_fonts/font = SubResource( 1 )
-text = "(do
-  (define r 10)
-  (if (> (* r r) 99)
-    \"yes\"
-    \"no\"))"
-syntax_highlighting = true
-draw_tabs = true
-draw_spaces = true
-minimap_draw = true
-caret_moving_by_right_click = false
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Output" type="TextEdit" parent="Container/Panel"]
-margin_left = 5.0
-margin_top = 412.0
-margin_right = 688.0
-margin_bottom = 642.0
-custom_fonts/font = SubResource( 1 )
-text = "Output"
-readonly = true
-syntax_highlighting = true
-draw_tabs = true
-draw_spaces = true
-wrap_enabled = true
-minimap_draw = true
-caret_moving_by_right_click = false
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Button" type="Button" parent="Container/Panel"]
-margin_left = 186.0
-margin_top = 650.0
-margin_right = 324.0
-margin_bottom = 697.0
-text = "Evaluate"
+script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -136,14 +85,15 @@ __meta__ = {
 
 [node name="WindowDialog" type="WindowDialog" parent="Container"]
 visible = true
-margin_left = 311.0
-margin_top = 265.0
-margin_right = 643.0
-margin_bottom = 483.0
+margin_left = 918.0
+margin_top = 219.0
+margin_right = 1250.0
+margin_bottom = 437.0
 window_title = ":scratch"
 resizable = true
 script = ExtResource( 4 )
 __meta__ = {
+"_edit_group_": true,
 "_edit_use_anchors_": false
 }
 
@@ -174,4 +124,117 @@ margin_top = 26.0
 margin_right = 212.0
 margin_bottom = 46.0
 
+[node name="WindowDialog2" type="WindowDialog" parent="Container"]
+visible = true
+margin_left = 912.0
+margin_top = 478.0
+margin_right = 1244.0
+margin_bottom = 696.0
+window_title = ":log"
+resizable = true
+script = ExtResource( 8 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Container/WindowDialog2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 4.0
+margin_right = -4.0
+margin_bottom = -4.0
+size_flags_horizontal = 7
+custom_constants/separation = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="WatchValue" parent="Container/WindowDialog2/VBoxContainer" instance=ExtResource( 6 )]
+visible = false
+margin_left = 0.0
+margin_top = 0.0
+margin_right = 212.0
+margin_bottom = 20.0
+
+[node name="WatchValue2" parent="Container/WindowDialog2/VBoxContainer" instance=ExtResource( 6 )]
+visible = false
+margin_left = 0.0
+margin_top = 26.0
+margin_right = 212.0
+margin_bottom = 46.0
+
+[node name="Panel" type="Panel" parent="Container"]
+modulate = Color( 1, 1, 1, 0.756863 )
+margin_right = 1283.0
+margin_bottom = 268.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextEdit" type="TextEdit" parent="Container/Panel"]
+margin_left = 5.0
+margin_top = 8.0
+margin_right = 641.0
+margin_bottom = 263.0
+custom_colors/background_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 1 )
+highlight_current_line = true
+syntax_highlighting = true
+draw_tabs = true
+draw_spaces = true
+fold_gutter = true
+highlight_all_occurrences = true
+wrap_enabled = true
+caret_moving_by_right_click = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Output" type="TextEdit" parent="Container/Panel"]
+margin_left = 643.0
+margin_top = 11.0
+margin_right = 1276.0
+margin_bottom = 262.0
+custom_colors/background_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 1 )
+text = "Output"
+readonly = true
+syntax_highlighting = true
+draw_tabs = true
+draw_spaces = true
+smooth_scrolling = true
+wrap_enabled = true
+minimap_draw = true
+caret_moving_by_right_click = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="Container/Panel"]
+margin_left = 562.0
+margin_top = 229.0
+margin_right = 638.0
+margin_bottom = 258.0
+text = "Evaluate"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TestButton" type="Button" parent="Container"]
+margin_left = 385.0
+margin_top = 460.0
+margin_right = 461.0
+margin_bottom = 489.0
+text = "Test"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [connection signal="pressed" from="Container/Panel/Button" to="Container" method="_on_Button_pressed"]
+[connection signal="pressed" from="Container/TestButton" to="Container" method="_on_Button_pressed"]

@@ -110,6 +110,34 @@ func apply(args: Array):
 
 			var n = r.find_node(args[0], true, false)
 			return n
+		
+		'find-nodes':
+			var r = GdLispGodotController.get_tree().root
+			var query = args[0]
+			var queue = [r]
+			var results = []
+			while len(queue) > 0:
+				var n = queue.pop_front()
+				if query in n.name:
+					results.append(n)
+				
+				for child in n.get_children():
+					queue.append(child)
+			
+			return results
+			
+		'all-nodes':
+			var r = GdLispGodotController.get_tree().root
+			var queue = [r]
+			var results = []
+			while len(queue) > 0:
+				var n = queue.pop_front()
+				results.append(n)
+				
+				for child in n.get_children():
+					queue.append(child)
+			
+			return results
 
 		'parent':
 			return args[0].get_parent()
@@ -117,6 +145,14 @@ func apply(args: Array):
 		'find-parent':
 			var n = args[1].find_parent(args[0])
 			return n
+			
+		'connect':
+			var node = args[2]
+			var signal_name = args[0]
+			var f = args[1]
+			
+			GdLispGodotController.receive_signal(node, signal_name, f)
+			return node
 			
 		'dict':
 			var d = {}
@@ -148,6 +184,15 @@ func apply(args: Array):
 		'dissoc!':
 			args[1].erase(args[0])
 			return args[1]
+			
+		'eq':
+			var res = true
+			var last = args[0]
+			for a in args:
+				res = res and (last == a)
+				last = a
+			
+			return res
 			
 		'add':
 			var t = typeof(args[0])
@@ -256,6 +301,13 @@ func apply(args: Array):
 		
 		'print':
 			print(args)
+			
+		'log':
+			var stream = args[0]
+			var capture = List.drop_first(1, args)
+			
+			GdLispGodotController.capture_log(stream, capture)
+	
 		_:
 			assert(false, "No definition for procedure " + name)
 			return null

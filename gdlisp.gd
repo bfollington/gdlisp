@@ -83,7 +83,7 @@ static func eval(expression, env):
 		return Closure.new(expression[2], env, args)
 	
 	elif expression[0] is Symbol and expression[0]._val == 'defn':
-		var args = expression[2].slice(1, len(expression[2]))
+		var args = expression[2]
 		var name = expression[1]._val
 		
 		var c = Closure.new(expression[3], env, args)
