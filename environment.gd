@@ -43,6 +43,7 @@ static func default():
 		"str": Procedure.new(Symbol.new("str")),
 		"print": Procedure.new(Symbol.new("print")),
 		"log": Procedure.new(Symbol.new("log")),
+		"inspect": Procedure.new(Symbol.new("inspect")),
 		"do": Procedure.new(Symbol.new("do")),
 	}
 	

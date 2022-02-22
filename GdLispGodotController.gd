@@ -2,6 +2,7 @@ extends Node
 
 signal emit_log
 signal watch_value
+signal inspect_node
 
 # Declare member variables here. Examples:
 # var a = 2
@@ -23,6 +24,9 @@ func receive_signal(node, signal_name, action):
 func capture_log(stream, values):
 	print("LOG ", stream, values)
 	emit_signal('emit_log', stream, values)
+
+func inspect(node: Node):
+	emit_signal('inspect_node', node)
 	
 func _on_signal_intercept(node, signal_name, action):
 	var out = action.apply([node, signal_name])

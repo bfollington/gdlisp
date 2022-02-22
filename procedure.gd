@@ -307,6 +307,9 @@ func apply(args: Array):
 			var capture = List.drop_first(1, args)
 			
 			GdLispGodotController.capture_log(stream, capture)
+
+		'inspect':
+			GdLispGodotController.inspect(args[0])
 	
 		_:
 			assert(false, "No definition for procedure " + name)
