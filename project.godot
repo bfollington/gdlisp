@@ -9,49 +9,91 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Node2D",
+"class": "Actor",
+"language": "GDScript",
+"path": "res://pathfinding/actor.gd"
+}, {
+"base": "Reference",
+"class": "Channel",
+"language": "GDScript",
+"path": "res://pathfinding/channel.gd"
+}, {
 "base": "Reference",
 "class": "Closure",
 "language": "GDScript",
-"path": "res://Closure.gd"
+"path": "res://gdlisp/Closure.gd"
 }, {
 "base": "Reference",
 "class": "Env",
 "language": "GDScript",
-"path": "res://environment.gd"
+"path": "res://gdlisp/environment.gd"
 }, {
 "base": "Reference",
 "class": "GdLisp",
 "language": "GDScript",
-"path": "res://gdlisp.gd"
+"path": "res://gdlisp/gdlisp.gd"
 }, {
 "base": "Symbol",
 "class": "Keyword",
 "language": "GDScript",
-"path": "res://keyword.gd"
+"path": "res://gdlisp/keyword.gd"
 }, {
 "base": "Reference",
 "class": "List",
 "language": "GDScript",
-"path": "res://List.gd"
+"path": "res://gdlisp/List.gd"
+}, {
+"base": "Node2D",
+"class": "MessageBus",
+"language": "GDScript",
+"path": "res://pathfinding/message_bus.gd"
+}, {
+"base": "Reference",
+"class": "PackagedMessage",
+"language": "GDScript",
+"path": "res://pathfinding/PackagedMessage.gd"
+}, {
+"base": "Node2D",
+"class": "PathFollower",
+"language": "GDScript",
+"path": "res://pathfinding/follow_path.gd"
+}, {
+"base": "Reference",
+"class": "PathfindingMessages",
+"language": "GDScript",
+"path": "res://pathfinding/PathfindingMessages.gd"
 }, {
 "base": "Reference",
 "class": "Procedure",
 "language": "GDScript",
-"path": "res://procedure.gd"
+"path": "res://gdlisp/procedure.gd"
 }, {
 "base": "Reference",
 "class": "Symbol",
 "language": "GDScript",
-"path": "res://symbol.gd"
+"path": "res://gdlisp/symbol.gd"
+}, {
+"base": "Reference",
+"class": "UUID",
+"language": "GDScript",
+"path": "res://addons/crypto_uuid_v4/uuid.gd"
 } ]
 _global_script_class_icons={
+"Actor": "",
+"Channel": "",
 "Closure": "",
 "Env": "",
 "GdLisp": "",
 "Keyword": "",
 "List": "",
+"MessageBus": "",
+"PackagedMessage": "",
+"PathFollower": "",
+"PathfindingMessages": "",
 "Procedure": "",
-"Symbol": ""
+"Symbol": "",
+"UUID": ""
 }
 
 [application]
@@ -62,7 +104,7 @@ config/icon="res://icon.png"
 
 [autoload]
 
-GdLispGodotController="*res://GdLispGodotController.gd"
+GdLispGodotController="*res://gdlisp/GdLispGodotController.gd"
 
 [display]
 

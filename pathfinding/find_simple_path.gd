@@ -1,11 +1,12 @@
 extends Node2D
 
-onready var navigation: Navigation2D = $Navigation2D
-onready var line: Line2D = $Line2D
-onready var character: Sprite = $Character
-onready var tiles: TileMap = $Navigation2D/TileMap
-onready var _half_cell_size: Vector2 = tiles.cell_size / 2
+onready var parent: Actor = get_parent() as Actor
 
+onready var navigation: Navigation2D = get_parent() as Navigation2D
+onready var line: Line2D = $"../Line2D"
+onready var character: Node2D = $"../../Character"
+onready var tiles: TileMap = $"../TileMap"
+onready var _half_cell_size: Vector2 = tiles.cell_size / 2
 
 # Declare member variables here. Examples:
 # var a = 2
@@ -14,19 +15,16 @@ onready var _half_cell_size: Vector2 = tiles.cell_size / 2
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	parent.connect("message_handled", self, "_on_message")
 
-func _unhandled_input(event: InputEvent):
-	if not event is InputEventMouseButton:
-		return
-	if event.button_index != BUTTON_LEFT or not event.pressed:
-		return
-		
-	var path = find_path(character.global_position, get_global_mouse_position())
-	line.points = path
-	character.path = path
-	pass
-	
+func _on_message(msg):
+	match msg.type:
+		"find_path":
+			PathfindingMessages.validate_find_path(msg.payload)
+			var path = find_path(character.global_position, msg.payload.destination)
+			parent.message_bus.broadcast("follow_path", { "path": path })
+			line.points = path
+			
 func find_path(from: Vector2, to: Vector2) -> PoolVector2Array:
 	var simple_path = navigation.get_simple_path(from, _convert_to_tile_center(to), false)
 	var path = PoolVector2Array([])
@@ -71,7 +69,6 @@ func _find_middle_point(start: Vector2, end: Vector2) -> Vector2:
 
 func _convert_to_tile_center(tile_world_position: Vector2) -> Vector2:
 	return tiles.map_to_world(tiles.world_to_map(tile_world_position)) + _half_cell_size
-
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):

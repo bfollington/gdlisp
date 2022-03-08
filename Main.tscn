@@ -2,13 +2,13 @@
 
 [ext_resource path="res://icon.png" type="Texture" id=1]
 [ext_resource path="res://spin.gd" type="Script" id=2]
-[ext_resource path="res://Container.gd" type="Script" id=3]
-[ext_resource path="res://WatchWindow.gd" type="Script" id=4]
+[ext_resource path="res://debug-ui/Container.gd" type="Script" id=3]
+[ext_resource path="res://debug-ui/WatchWindow.gd" type="Script" id=4]
 [ext_resource path="res://fonts/iosevka-fixed-ss05-extended.ttf" type="DynamicFontData" id=5]
-[ext_resource path="res://WatchValue.tscn" type="PackedScene" id=6]
-[ext_resource path="res://NodeBrowser.gd" type="Script" id=7]
-[ext_resource path="res://LogDialog.gd" type="Script" id=8]
-[ext_resource path="res://InspectDialog.gd" type="Script" id=9]
+[ext_resource path="res://debug-ui/WatchValue.tscn" type="PackedScene" id=6]
+[ext_resource path="res://debug-ui/NodeBrowser.gd" type="Script" id=7]
+[ext_resource path="res://debug-ui/LogDialog.gd" type="Script" id=8]
+[ext_resource path="res://debug-ui/InspectDialog.gd" type="Script" id=9]
 
 [sub_resource type="DynamicFont" id=1]
 size = 20
